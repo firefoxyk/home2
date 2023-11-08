@@ -6,13 +6,13 @@ const Menu = () => {
 <nav>
 <ul>
   <li>
-    <Link to={'/HomePage'}>HomePage</Link>
+    <Link to={'/home'}>HomePage</Link>
   </li>
   <li>
-    <Link to={'/RegisterPage'}>RegisterPage</Link>
+    <Link to={'/register'}>RegisterPage</Link>
   </li>
   <li>
-    <Link to={'/LoginPage'}>LoginPage</Link>
+    <Link to={'/login'}>LoginPage</Link>
   </li>
 </ul>
 </nav>

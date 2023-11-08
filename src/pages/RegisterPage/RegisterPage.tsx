@@ -10,17 +10,27 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { UserActions } from '../../StateManagement/redux';
+import { useDispatch } from 'react-redux';
 
 const defaultTheme = createTheme();
 
-export default function SignUp() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+const SignUp = () => {
+  const dispatch = useDispatch(); // инициализация хука useDispatch
+
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  const handleEmailChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+    setEmail(event.target.value);
+  };
+  const handlePasswordChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+    setPassword(event.target.value);
+  };
+
+  const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    dispatch({ type: UserActions.userRegister, payload: { email, password } }); // использование функции dispatch для отправки действия userRegister
   };
 
   return (
@@ -39,7 +49,7 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Registr
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -51,6 +61,8 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  value={email}
+                  onChange={handleEmailChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -62,6 +74,8 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  value={password}
+                  onChange={handlePasswordChange}
                 />
               </Grid>
             </Grid>
@@ -75,7 +89,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href='/LoginPage' variant="body2">
+                <Link href='/login' variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
@@ -86,3 +100,5 @@ export default function SignUp() {
     </ThemeProvider>
   );
 }
+
+export default SignUp;

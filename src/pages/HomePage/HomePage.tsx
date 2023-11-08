@@ -1,14 +1,21 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import { connect, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useStore } from 'react-redux';
+import type { Store } from 'redux'
 
 
 
 const HomePage = () => {
-    const css = {
-        padding: '10px',
-        border: '5px solid blue'
-    };
+    const store: Store = useStore();
+    const globSt = store.getState();
+    let auth:boolean = useSelector((state: any) => state.user.isAuthenticated)
+    let textPage;
+    console.log('auth',auth);
+    if(auth)
+    textPage = <div>HomePage:) А я знаю твою почту: {globSt.user.user.email}</div>;
+    else
+    textPage =  <div>HomePage:)</div>;    
 
     return <div>
         <Container component="main" maxWidth="xs">
@@ -25,7 +32,7 @@ const HomePage = () => {
                     color="text.primary"
                     gutterBottom
                 >
-                    HomePage:)
+                   {textPage}
                 </Typography>
                 <Typography
                     component="h1"
@@ -35,8 +42,8 @@ const HomePage = () => {
                 >
                 </Typography>
                 <Box sx={{ flexDirection: 'row', display: 'flex', justifyContent: 'center' }}>
-                    <Button variant="contained" href="/LoginPage" sx={{ width: 1 / 4, mr: 2 }} >Login</Button>
-                    <Button variant="contained" href="/RegisterPage" sx={{ width: 1 / 2, mr: 2 }}  >Register</Button>
+                    <Button variant="contained" href="/login" sx={{ width: 1 / 4, mr: 2 }} >Login</Button>
+                    <Button variant="contained" href="/register" sx={{ width: 1 / 2, mr: 2 }}  >Register</Button>
                 </Box>
             </Box>
         </Container>

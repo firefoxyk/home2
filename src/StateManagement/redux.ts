@@ -1,35 +1,71 @@
 import { User } from "../models/models";
 
 export const UserActions = {
-    userSet: '[USER_STATE] USER_SET',
-    authSet: '[USER_STATE] USER_AUTH',
+    userAuth: '[USER_STATE] USER_AUTH',
+    userRegister: '[USER_STATE] USER_REGISTER'
 }
 
 // глобальный стейт
-interface State {
+interface RootState {
     user: User | null;
-    counter: number;
-    isAuth: boolean;
+    isAuthenticated: boolean;
+    users: User[]; // предположим, что у вас есть массив пользователей
 }
 
-type Action = { type: string, payload?: any };
+type UserPayload = {
+    email: string;
+    password: string;
+};
+
+type Action = {
+    type: string,
+    payload?: UserPayload
+};
 
 //исходный стейт 
-const initialState: State = {
-    user: {username: "", password: ""},
-    counter: 15,
-    isAuth: false,
+const initialState: RootState = {
+    user: null,
+    isAuthenticated: false,
+    users: [{email:"marussia02@gmail.com",password:"123"}]
 }
 
 // редюсер - функция, на основе входного объекта 
 // меняющая стейт и возвращающая новый
+//state - текущее состояние системы (initialState знач по умолч)
 const userReducer = (state = initialState, action: Action) => {
-    console.log('ape',state);
     switch (action.type) {
-        case UserActions.userSet: 
-            return { ...state, user: action.payload };
-        case UserActions.authSet: 
-            return { ...state, isAuth: action.payload };
+
+        case UserActions.userRegister:
+            if (action.payload) {
+                const { email, password } = action.payload;
+                // Создайте новый объект пользователя
+                const newUser: User = { email, password };
+                console.log('newUser',newUser);
+                // Обновите стейт, добавляя нового пользователя в массив пользователей
+                return {
+                    ...state,
+                    users: [...state.users, newUser]
+                };
+            }
+            break;
+
+        case UserActions.userAuth:
+            if (action.payload) {
+                const { email, password } = action.payload;
+                // Здесь ты можешь выполнить дополнительные действия, например, запросить сервер для аутентификации
+                // После успешной аутентификации ты можешь обновить стейт пользователей
+                if (!email || !password) {
+                    // обработка случая, когда данные email и password отсутствуют или неверны
+                    return state;
+                }
+                return {
+                    ...state,
+                    user: { email, password },
+                    isAuthenticated: true
+                };
+            }
+            break;
+
         default:
             return state;
     }
