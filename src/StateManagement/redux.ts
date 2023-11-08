@@ -7,7 +7,7 @@ export const UserActions = {
 
 export interface RootState {
     user: User | null;
-    userList: User[];
+    userList: User[]; 
 }
 
 type UserPayload = {
@@ -26,19 +26,25 @@ const initialState: RootState = {
 }
 
 const userReducer = (state = initialState, action: Action) => {
+    console.log('state', state);
     switch (action.type) {
 
         case UserActions.userRegister:
             if (action.payload) {
                 const { email, password } = action.payload;
+
                 const newUser: User = { email, password, isAuthenticated: false };
                 console.log('newUser', newUser);
-                if (!state.userList.some(user => user.email === email) && !email && !password) {
+                console.log('email', email);
+                console.log('password', password);
+
+                if (!state.userList.some(user => user.email === email)) {
                     return {
                         ...state,
                         userList: [...state.userList, newUser]
                     }
                 };
+
                 return state;
             }
             break;
@@ -46,7 +52,7 @@ const userReducer = (state = initialState, action: Action) => {
         case UserActions.userAuth:
             if (action.payload) {
                 const { email, password } = action.payload;
-                if (state.userList.some(user => user.email === email) && !state.userList.some(user => user.password === password)) {
+                if (state.userList.some(user => user.email === email) && state.userList.some(user => user.password === password)) {
                     return state;
                 }
                 return {

@@ -31,7 +31,7 @@ const SignUp = () => {
 
   const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
-    dispatch({ type: UserActions.userRegister, payload: { email, password } }); // использование функции dispatch для отправки действия userRegister
+    dispatch({ type: UserActions.userRegister, payload: { email, password, isAuthenticated:false } }); // использование функции dispatch для отправки действия userRegister
   };
 
   return (
