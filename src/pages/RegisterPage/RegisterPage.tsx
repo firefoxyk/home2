@@ -12,6 +12,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { UserActions } from '../../StateManagement/redux';
 import { useDispatch } from 'react-redux';
+import LoginPage from '../LoginPage/LoginPage';
 
 const defaultTheme = createTheme();
 

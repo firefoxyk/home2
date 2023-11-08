@@ -1,5 +1,5 @@
 import { Box, Button, Container, Typography } from "@mui/material";
-import { connect, useSelector } from "react-redux";
+import { TypedUseSelectorHook, useDispatch, useSelector  } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useStore } from 'react-redux';
 import type { Store } from 'redux'
@@ -9,13 +9,14 @@ import type { Store } from 'redux'
 const HomePage = () => {
     const store: Store = useStore();
     const globSt = store.getState();
+    console.log('globSt',globSt);
     let auth:boolean = useSelector((state: any) => state.user.isAuthenticated)
     let textPage;
     console.log('auth',auth);
     if(auth)
     textPage = <div>HomePage:) А я знаю твою почту: {globSt.user.user.email}</div>;
     else
-    textPage =  <div>HomePage:)</div>;    
+    textPage =  <div>HomePage:)</div>;   
 
     return <div>
         <Container component="main" maxWidth="xs">
