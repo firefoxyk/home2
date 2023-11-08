@@ -10,11 +10,13 @@ const HomePage = () => {
     const store: Store = useStore();
     const globSt = store.getState();
     console.log('globSt',globSt);
-    let auth:boolean = useSelector((state: any) => state.user.isAuthenticated)
+    let auth:boolean = useSelector((state: any) => globSt.user.user.isAuthenticated)
     let textPage;
     console.log('auth',auth);
-    if(auth)
+    if(auth){
+    console.log('2');
     textPage = <div>HomePage:) А я знаю твою почту: {globSt.user.user.email}</div>;
+    }
     else
     textPage =  <div>HomePage:)</div>;   
 

@@ -34,10 +34,6 @@ const userReducer = (state = initialState, action: Action) => {
                 const { email, password } = action.payload;
 
                 const newUser: User = { email, password, isAuthenticated: false };
-                console.log('newUser', newUser);
-                console.log('email', email);
-                console.log('password', password);
-
                 if (!state.userList.some(user => user.email === email)) {
                     return {
                         ...state,
@@ -50,15 +46,25 @@ const userReducer = (state = initialState, action: Action) => {
             break;
 
         case UserActions.userAuth:
+            console.log('state', state);
             if (action.payload) {
                 const { email, password } = action.payload;
+                console.log('email', email);
+                console.log('password', password);
                 if (state.userList.some(user => user.email === email) && state.userList.some(user => user.password === password)) {
-                    return state;
+                    console.log('1');
+                    return {
+                        ...state,
+                        user: { email, password, isAuthenticated: true }
+                    };
                 }
-                return {
-                    ...state,
-                    user: { email, password, isAuthenticated: true }
-                };
+                else{
+                    
+                    return state;
+
+                }
+
+
             }
             break;
 
